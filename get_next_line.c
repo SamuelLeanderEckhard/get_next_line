@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 20:22:53 by seckhard          #+#    #+#             */
-/*   Updated: 2023/10/23 21:11:06 by seckhard         ###   ########.fr       */
+/*   Updated: 2023/10/23 23:26:58 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	read_line(int fd, char **line, char **remainder)
 		return (-1);
 	if (!remaining_data)
 		remaining_data = ft_strdup("");
-
 	while (bytes_read > 0)
 	{
 		buffer[bytes_read] = '\0';
