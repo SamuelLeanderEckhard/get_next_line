@@ -20,7 +20,7 @@ static int	read_line(int fd, char **line, char **remaining_data)
 
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 
-	if (fd < 0 || !line || BUFFER_SIZE <= 0)
+	if (fd < 0 || !line || !remaining_data)
 		return (-1);
 	if (!(*remaining_data))
 		*remaining_data = ft_strdup("");
@@ -50,7 +50,7 @@ int	find_newline(char **line, char **remaining_data)
 	{
 		*newline_pos = '\0';
 		*line = ft_strdup(*remaining_data);
-		*tmp = ft_strdup(newline_pos + 1);
+		tmp = ft_strdup(newline_pos + 1);
 		free(*remaining_data);
 		*remaining_data = tmp;
 		return (1);
