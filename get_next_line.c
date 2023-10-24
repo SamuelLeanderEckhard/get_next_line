@@ -15,21 +15,21 @@
 static int	read_line(int fd, char **line, char **remaining_data)
 {
 	char		buffer[BUFFER_SIZE + 1];
-	int			bytes_read;
+	int		bytes_read;
 	char		*tmp;
 
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 
-	if (fd < 0 || !line)
+	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
-	if (!remaining_data)
-		remaining_data = ft_strdup("");
+	if (!(*remaining_data))
+		*remaining_data = ft_strdup("");
 	while (bytes_read > 0)
 	{
 		buffer[bytes_read] = '\0';
-		tmp = ft_strjoin(remaining_data, buffer);
-		free(remaining_data);
-		remaining_data = tmp;
+		tmp = ft_strjoin(*remaining_data, buffer);
+		free(*remaining_data);
+		*remaining_data = tmp;
 		if (ft_strchr(buffer, '\n'))
 			return (find_newline(line));
 	}
@@ -45,11 +45,11 @@ int	find_newline(char **line, char **remaining_data)
 	char	*newline_pos;
 	char	*tmp;
 
-	newline_pos = ft_strchr(remaining_data, '\n');
+	newline_pos = ft_strchr(*remaining_data, '\n');
 	if (newline_pos != NULL)
 	{
 		*newline_pos = '\0';
-		*line = ft_strdup(remaining_data);
+		*line = ft_strdup(*remaining_data);
 		*tmp = ft_strdup(newline_pos + 1);
 		free(*remaining_data);
 		*remaining_data = tmp;
@@ -60,7 +60,7 @@ int	find_newline(char **line, char **remaining_data)
 
 int	get_next_line(int fd, char **line)
 {
-	static char	remaining_data = NULL;
+	static char	*remaining_data = NULL;
 
 	if (read_line(fd, line, &remaining_data) == 1)
 		return (1);
