@@ -58,7 +58,7 @@ int	find_newline(char **line, char **remaining_data)
 
 int	get_next_line(int fd, char **line)
 {
-	static char	*remaining_data = NULL;
+	char	*remaining_data = NULL;
 
 	if (read_line(fd, line, &remaining_data) == 1)
 		return (1);
