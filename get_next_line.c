@@ -28,7 +28,7 @@ static int	read_line(int fd, char **line, char **remaining_data)
 		tmp = ft_strjoin(*remaining_data, buffer);
 		free(*remaining_data);
 		*remaining_data = tmp;
-		if (ft_strchr(buffer, '\n'))
+		if (ft_strchr(*remaining_data, '\n'))
 			return (find_newline(line, remaining_data));
 	}
 	if (bytes_read == 0 && (*remaining_data)[0] != '\0')
