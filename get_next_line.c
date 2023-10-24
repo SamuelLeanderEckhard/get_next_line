@@ -12,14 +12,13 @@
 
 #include "get_next_line.h"
 
-static int	read_line(int fd, char **line, char **remainder)
+static int	read_line(int fd, char **line, char **remaining_data)
 {
 	char		buffer[BUFFER_SIZE + 1];
 	int			bytes_read;
 	char		*tmp;
-	static char	*remaining_data = NULL;
 
-	bytes_read = read(fd, buffer, BUFFER_SIZE)
+	bytes_read = read(fd, buffer, BUFFER_SIZE);
 
 	if (fd < 0 || !line)
 		return (-1);
@@ -35,13 +34,13 @@ static int	read_line(int fd, char **line, char **remainder)
 			return (find_newline(line));
 	}
 	if (bytes_read == 0 && remaining_data[0] != '\0')
-		return (find_newline(line));
-	free(remaining_data);
-	remaining_data = NULL;
+		return (find_newline(line, remaining_data));
+	free(*remaining_data);
+	*remaining_data = NULL;
 	return (0);
 }
 
-int	find_newline(char **line)
+int	find_newline(char **line, char **remaining_data)
 {
 	char	*newline_pos;
 	char	*tmp;
@@ -52,8 +51,8 @@ int	find_newline(char **line)
 		*newline_pos = '\0';
 		*line = ft_strdup(remaining_data);
 		*tmp = ft_strdup(newline_pos + 1);
-		free(remaining_data);
-		remaining_data = tmp;
+		free(*remaining_data);
+		*remaining_data = tmp;
 		return (1);
 	}
 	return (0);
@@ -61,7 +60,9 @@ int	find_newline(char **line)
 
 int	get_next_line(int fd, char **line)
 {
-	if (read_line(fd, line) == 1)
+	static char	remaining_data = NULL;
+
+	if (read_line(fd, line, &remaining_data) == 1)
 		return (1);
 	return (0);
 }
