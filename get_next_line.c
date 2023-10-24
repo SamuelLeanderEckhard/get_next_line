@@ -22,8 +22,6 @@ static int	read_line(int fd, char **line, char **remaining_data)
 
 	if (fd < 0 || !line || !remaining_data)
 		return (-1);
-	if (!(*remaining_data))
-		*remaining_data = ft_strdup("");
 	while (bytes_read > 0)
 	{
 		buffer[bytes_read] = '\0';
@@ -31,9 +29,9 @@ static int	read_line(int fd, char **line, char **remaining_data)
 		free(*remaining_data);
 		*remaining_data = tmp;
 		if (ft_strchr(buffer, '\n'))
-			return (find_newline(line));
+			return (find_newline(line, remaining_data));
 	}
-	if (bytes_read == 0 && remaining_data[0] != '\0')
+	if (bytes_read == 0 && (*remaining_data)[0] != '\0')
 		return (find_newline(line, remaining_data));
 	free(*remaining_data);
 	*remaining_data = NULL;
