@@ -6,61 +6,81 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 20:22:53 by seckhard          #+#    #+#             */
-/*   Updated: 2023/10/23 23:26:58 by seckhard         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:48:49 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	read_line(int fd, char **line, char **remaining_data)
+static char	*read_nl(int fd, char *saved)
 {
-	char		buffer[BUFFER_SIZE + 1];
+	char	buffer[BUFFER_SIZE + 1];
 	int		bytes_read;
-	char		*tmp;
+	char	*temp;
 
+	temp = saved;
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
-
-	if (fd < 0 || !line || !remaining_data)
-		return (-1);
-	while (bytes_read > 0)
-	{
-		buffer[bytes_read] = '\0';
-		tmp = ft_strjoin(*remaining_data, buffer);
-		free(*remaining_data);
-		*remaining_data = tmp;
-		if (ft_strchr(*remaining_data, '\n'))
-			return (find_newline(line, remaining_data));
-	}
-	if (bytes_read == 0 && (*remaining_data)[0] != '\0')
-		return (find_newline(line, remaining_data));
-	free(*remaining_data);
-	*remaining_data = NULL;
-	return (0);
+	if (bytes_read == -1)
+		return (NULL);
+	buffer[bytes_read] = '\0';
+	if (!saved)
+		saved = ft_strdup("");
+	saved = ft_strjoin(saved, buffer);
+	free(temp);
+	return (saved);
 }
 
-int	find_newline(char **line, char **remaining_data)
+char	*get_next_line(int fd)
 {
-	char	*newline_pos;
-	char	*tmp;
+	static char	*saved = NULL;
+	char		*line;
+	char		*temp;
+	char		*newline_pos;
 
-	newline_pos = ft_strchr(*remaining_data, '\n');
-	if (newline_pos != NULL)
+	newline_pos = ft_strchr(saved, '\n');
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	while (!newline_pos)
 	{
-		*newline_pos = '\0';
-		*line = ft_strdup(*remaining_data);
-		tmp = ft_strdup(newline_pos + 1);
-		free(*remaining_data);
-		*remaining_data = tmp;
-		return (1);
+		saved = read_nl(fd, saved);
+		if (!saved)
+		{
+			free(saved);
+			return (NULL);
+		}
+		newline_pos = ft_strchr(saved, '\n');
 	}
-	return (0);
+	*newline_pos = '\0';
+	line = ft_strdup(saved);
+	temp = saved;
+	saved = ft_strdup(newline_pos + 1);
+	free(temp);
+	return (line);
 }
 
-int	get_next_line(int fd, char **line)
-{
-	char	*remaining_data = NULL;
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
 
-	if (read_line(fd, line, &remaining_data) == 1)
-		return (1);
-	return (0);
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 32
+#endif
+
+int main(void)
+{
+    int fd = open("test.txt", O_RDONLY);
+    char *line;
+
+    if (fd == -1)
+        return (1);
+
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("Line: %s\n", line);
+        free(line);
+    }
+
+    close(fd);
+    return (0);
 }
