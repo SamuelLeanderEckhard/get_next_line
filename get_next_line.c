@@ -5,79 +5,47 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 20:22:53 by seckhard          #+#    #+#             */
-/*   Updated: 2023/10/25 16:52:31 by seckhard         ###   ########.fr       */
+/*   Created: 2023/10/27 17:10:58 by seckhard          #+#    #+#             */
+/*   Updated: 2023/10/27 21:08:31 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*read_nl(int fd, char *saved)
-{
-	char	buffer[BUFFER_SIZE + 1];
-	int		bytes_read;
-	char	*temp;
-
-	bytes_read = read(fd, buffer, BUFFER_SIZE);
-	if (bytes_read <= 0)
-		return (NULL);
-	buffer[bytes_read] = '\0';
-	if (!saved)
-		saved = ft_strdup("");
-	temp = saved;
-	saved = ft_strjoin(saved, buffer);
-	free(temp);
-	return (saved);
-}
-
 char	*get_next_line(int fd)
 {
-	static char	*saved = NULL;
-	char		*line;
-	char		*temp;
-	char		*newline_pos;
+	static char	buffer[BUFFER_SIZE + 1];
+	char		*str;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	newline_pos = ft_strchr(saved, '\n');
-	while (!newline_pos)
+	str = NULL;
+	if (read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
 	{
-		saved = read_nl(fd, saved);
-		if (!saved)
-			return (NULL);
-		newline_pos = ft_strchr(saved, '\n');
+		ft_zero_buffer(buffer);
+		return (NULL);
 	}
-	*newline_pos = '\0';
-	line = ft_strdup(saved);
-	temp = ft_strdup(newline_pos + 1);
-	free(saved);
-	saved = temp;
-	return (line);
+	while (*buffer != 0 || read(fd, buffer, BUFFER_SIZE) > 0)
+	{
+		str = ft_strjoin(str, buffer);
+		if (ft_buffer_manager(buffer))
+			break ;
+	}
+	return (str);
 }
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
+/*#include <fcntl.h>
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 32
-#endif
-
-int main(void)
+int main()
 {
-    int fd = open("test.txt", O_RDONLY);
-    char *line;
+	int fd = open("test.txt", O_RDONLY);
+	int fd2 = open("test2.txt", O_RDONLY);
+	char *line;
+	
+		line = get_next_line(fd);
+		printf("%s", line);
+		free (line);
+ 		line = get_next_line(fd2);
+		printf("%s", line);
+		free (line);
 
-    if (fd == -1)
-        return (1);
-
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        printf("Line: %s\n", line);
-        free(line);
-    }
-
-    close(fd);
-    return (0);
-}
+	return 0;
+}*/
