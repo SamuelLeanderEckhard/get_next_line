@@ -6,11 +6,11 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 22:52:13 by seckhard          #+#    #+#             */
-/*   Updated: 2023/10/27 23:04:19 by seckhard         ###   ########.fr       */
+/*   Updated: 2023/10/27 23:51:21 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <get_next_line_bonus.h>
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
@@ -40,11 +40,11 @@ char	*get_next_line(int fd)
 	return (str);
 }
 
-/*#include <fcntl.h>
+#include <fcntl.h>
 
 int main()
 {
-	int fd = open("teste.txt", O_RDONLY);
+	int fd = open("test.txt", O_RDONLY);
 	int fd2 = open("test2.txt", O_RDONLY);
 	char *line;
 	
@@ -56,4 +56,4 @@ int main()
 		free (line);
 
 	return 0;
-}*/
+}
