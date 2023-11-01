@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 20:23:07 by seckhard          #+#    #+#             */
-/*   Updated: 2023/10/27 21:30:29 by seckhard         ###   ########.fr       */
+/*   Created: 2023/10/30 21:43:40 by seckhard          #+#    #+#             */
+/*   Updated: 2023/11/01 17:38:48 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@
 # include <stddef.h>
 # include <stdio.h>
 
-void	ft_zero_buffer(char *buf);
-int	ft_buffer_manager(char *buffer);
-int	ft_strlen(const char *str);
+int		ft_buffer_manager(char *buffer);
+int		ft_strlen(const char *str);
 char	*ft_strjoin(char *s1, char *s2);
 char	*get_next_line(int fd);
 

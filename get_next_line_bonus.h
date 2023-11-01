@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 22:56:50 by seckhard          #+#    #+#             */
-/*   Updated: 2023/10/27 23:03:10 by seckhard         ###   ########.fr       */
+/*   Updated: 2023/11/01 17:40:07 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 50
+#  define BUFFER_SIZE 10000000
 # endif
 
 char	*get_next_line(int fd);

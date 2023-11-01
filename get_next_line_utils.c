@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 16:20:54 by seckhard          #+#    #+#             */
-/*   Updated: 2023/10/27 20:55:17 by seckhard         ###   ########.fr       */
+/*   Created: 2023/10/30 21:44:44 by seckhard          #+#    #+#             */
+/*   Updated: 2023/11/01 17:39:33 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	str[i] = '\0';
 	free(s1);
 	return (str);
-}
-
-void	ft_zero_buffer(char *buf)
-{
-	int	i;
-
-	i = 0;
-	while (buf[i])
-		buf[i++] = 0;
 }
 
 int	ft_buffer_manager(char *buffer)

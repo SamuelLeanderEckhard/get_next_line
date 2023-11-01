@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/27 17:10:58 by seckhard          #+#    #+#             */
-/*   Updated: 2023/10/27 21:08:31 by seckhard         ###   ########.fr       */
+/*   Created: 2023/10/30 21:44:04 by seckhard          #+#    #+#             */
+/*   Updated: 2023/11/01 17:39:14 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,24 @@ char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE + 1];
 	char		*str;
+	int			i;
 
-	str = NULL;
-	if (read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
-	{
-		ft_zero_buffer(buffer);
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	}
+	i = 0;
+	str = NULL;
 	while (*buffer != 0 || read(fd, buffer, BUFFER_SIZE) > 0)
 	{
 		str = ft_strjoin(str, buffer);
 		if (ft_buffer_manager(buffer))
 			break ;
+		i = read(fd, buffer, BUFFER_SIZE);
+		if (i < 0)
+		{
+			free(str);
+			str = NULL;
+			return (NULL);
+		}
 	}
 	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 22:52:13 by seckhard          #+#    #+#             */
-/*   Updated: 2023/10/27 23:51:21 by seckhard         ###   ########.fr       */
+/*   Updated: 2023/11/01 17:40:33 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,29 @@ char	*get_next_line(int fd)
 {
 	static char	buffer[FOPEN_MAX][BUFFER_SIZE + 1];
 	char		*str;
-	int			i;
+	int		i;
 
 	str = NULL;
-	if (read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
-	{
-		i = 0;
-		if (fd >= 0 && fd <= FOPEN_MAX)
-		{
-			while (buffer[fd][i])
-			{
-				buffer[fd][i++] = 0;
-			}
-		}
+	i = 0;
+	if (fd < 0 || fd > FOPEN_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
-	}
-	while (buffer[fd][0] != 0 || read(fd, buffer[fd], BUFFER_SIZE) > 0)
+	while (buffer[fd][0] || read(fd, buffer[fd], BUFFER_SIZE) > 0)
 	{
 		str = ft_strjoin(str, buffer[fd]);
 		if (ft_buffer_manager(buffer[fd]))
 			break ;
+		i = read(fd, buffer[fd], BUFFER_SIZE);
+		if (i < 0)
+		{
+			free(str);
+			str = NULL;
+			return (NULL);
+		}
 	}
 	return (str);
 }
 
-#include <fcntl.h>
+/*#include <fcntl.h>
 
 int main()
 {
@@ -56,4 +54,4 @@ int main()
 		free (line);
 
 	return 0;
-}
+}*/
