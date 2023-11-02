@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 21:44:44 by seckhard          #+#    #+#             */
-/*   Updated: 2023/11/01 17:39:33 by seckhard         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:36:53 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	size = ft_strlen(s1) + ft_strlen(s2);
 	str = (char *)malloc(sizeof(char) * (size + 1));
 	if (!str)
-		return (NULL);
+		return (free(s1), NULL);
 	while (s1 && s1[i])
 	{
 		str[i] = s1[i];

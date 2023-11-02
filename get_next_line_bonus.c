@@ -6,7 +6,7 @@
 /*   By: seckhard <seckhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 22:52:13 by seckhard          #+#    #+#             */
-/*   Updated: 2023/11/01 17:40:33 by seckhard         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:08:47 by seckhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*get_next_line(int fd)
 {
 	static char	buffer[FOPEN_MAX][BUFFER_SIZE + 1];
 	char		*str;
-	int		i;
+	int			i;
 
 	str = NULL;
 	i = 0;
